@@ -1,0 +1,74 @@
+/* 顶部导航栏 */
+.top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #1a2634;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* 水平导航菜单 */
+.nav-menu {
+    display: flex;
+    list-style: none;
+    height: 100%;
+}
+
+.nav-menu li {
+    height: 100%;
+}
+
+.nav-item {
+    height: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95em;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item.active {
+    background-color: #2980b9;
+    color: white;
+}
+
+.nav-item:hover {
+    background-color: #34495e;
+    color: white;
+}
+
+.nav-item i {
+    margin-right: 8px;
+}
+
+/* 导航栏右侧 */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.about-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.about-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}

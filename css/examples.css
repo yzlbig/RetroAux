@@ -1,0 +1,231 @@
+:root {
+    --primary-color: #2c7be5;
+    --error-color: #ff4444;
+    --success-color: #00C851;
+    --background-color: #f8f9fa;
+    --border-color: #e9ecef;
+}
+
+/* 全局设置 */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f9f9f9; /* 页面背景色 */
+}
+
+/* 顶部导航栏 */
+.top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #1a2634;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+
+
+/* 导航栏右侧 */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.about-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.about-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.examples-decor.left {
+    left: 0;
+    background: linear-gradient(to right, rgba(44, 123, 229, 0.05), transparent);
+}
+
+.examples-decor.right {
+    right: 0;
+    background: linear-gradient(to left, rgba(44, 123, 229, 0.05), transparent);
+}
+
+/* 主内容容器 */
+.examples-container {
+    width: 100%; /* 撑满屏幕宽度 */
+    height: 100%; /* 撑满屏幕高度 */
+    max-width: none; /* 取消最大宽度限制 */
+    max-height: none; /* 取消最大高度限制 */
+    background-color: #ffffff; /* 白色背景 */
+    border-radius: 0; /* 去掉圆角 */
+    box-shadow: none; /* 去掉阴影 */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中内容 */
+    align-items: center; /* 水平居中内容 */
+    text-align: center; /* 文本居中 */
+}
+
+/* 标题样式 */
+.examples-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #2c7be5;
+    padding-bottom: 10px;
+}
+
+/* 输入和输出区域 */
+.input-output-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+/* 输入区域样式 */
+.input-section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px; /* 限制输入区域宽度 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.input-group {
+    display: flex; /* 使用 flex 布局 */
+    align-items: center; /* 垂直居中对齐 */
+    gap: 10px; /* 输入框和按钮之间的间距 */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #2c7be5;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.1);
+}
+
+#smilesInput {
+    flex: 1; /* 输入框占据剩余空间 */
+    padding: 10px; /* 内边距，确保输入框内容不贴边 */
+    font-size: 16px; /* 字体大小 */
+    border: 1px solid #ccc; /* 边框颜色 */
+    border-radius: 4px; /* 圆角 */
+}
+
+button#submitBtn {
+    margin-top: 15px;
+    padding: 10px 20px; /* 按钮内边距 */
+    font-size: 16px; /* 字体大小 */
+    background-color: #007bff; /* 按钮背景色 */
+    color: white; /* 按钮文字颜色 */
+    border: none; /* 去掉边框 */
+    border-radius: 4px; /* 圆角 */
+    cursor: pointer; /* 鼠标悬停时显示手型 */
+    transition: background-color 0.3s ease;
+}
+
+button#submitBtn:hover {
+    background-color: #0056b3; /* 鼠标悬停时的背景色 */
+}
+
+/* 输出区域样式 */
+.output-section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px; /* 限制输出区域宽度 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.output-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.result-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.molecule-visualization img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.properties-list {
+    width: 100%;
+    text-align: left;
+}
+
+.result-property {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.property-name {
+    font-weight: bold;
+    color: #555;
+}
+
+.property-value {
+    color: #333;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .examples-container {
+        padding: 15px;
+    }
+    .examples-layout {
+        flex-direction: column;
+    }
+    .examples-container {
+        width: 100%;
+        margin: 20px;
+    }
+    .examples-decor {
+        display: none; /* 小屏幕隐藏装饰 */
+    }
+    .input-section, .output-section {
+        max-width: 100%; /* 小屏幕下宽度自适应 */
+    }
+}

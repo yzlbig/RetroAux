@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMILES分子输入</title>
+    <link rel="stylesheet" href="../css/examples.css">
+    <link rel="stylesheet" href="../css/head.css">
+
+    <script>
+        // 在全局作用域定义函数(最早执行)
+        function submitSmiles() {
+            console.log("submitSmiles 函数被调用");
+            
+            // 获取输入值
+            const smilesInput = document.getElementById('smilesInput');
+            if (!smilesInput) {
+                console.error("未找到输入框元素");
+                return;
+            }
+            
+            const smilesValue = smilesInput.value.trim();
+            
+            // 验证输入是否为空
+            if (!smilesValue) {
+                alert("请输入SMILES字符串");
+                return;
+            }
+            
+            // 验证SMILES格式
+            const smilesRegex = /^[A-Za-z0-9@+\-\[\]\(\)=#$:\.\\\/]+$/;
+            if (!smilesRegex.test(smilesValue)) {
+                alert("SMILES格式不正确，请检查输入");
+                return;
+            }
+            
+            // 显示处理中状态
+            const molecularWeightElement = document.getElementById('molecularWeight');
+            const logPElement = document.getElementById('logP');
+            
+            if (molecularWeightElement) molecularWeightElement.textContent = "处理中...";
+            if (logPElement) logPElement.textContent = "处理中...";
+            
+            // 发送数据到后端
+            fetch('http://10.254.29.16:11357/upload', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ smiles: smilesValue }),
+            })
+            .then(response => {
+                console.log("服务器响应状态:", response.status);
+                if (!response.ok) {
+                    throw new Error('服务器响应错误: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("接收到数据:", data);
+                // 更新结果显示
+                if (molecularWeightElement) molecularWeightElement.textContent = data.molecularWeight || '-';
+                if (logPElement) logPElement.textContent = data.logP || '-';
+            })
+            .catch(error => {
+                console.error("请求失败:", error);
+                alert("请求失败，请检查网络连接或服务器状态");
+                
+                // 恢复默认值
+                if (molecularWeightElement) molecularWeightElement.textContent = '-';
+                if (logPElement) logPElement.textContent = '-';
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- 顶部导航栏（包含导航菜单） -->
+    <nav class="top-navbar">
+        <div class="logo">RetroAux</div>
+        
+        <!-- 水平导航菜单 -->
+        <ul class="nav-menu">
+            <li><a href="home.html" class="nav-item"><i>⌂</i> Home</a></li>
+            <li><a href="examples.html" class="nav-item"><i>📊</i> Examples</a></li>
+            <li><a href="methods.html" class="nav-item"><i>📝</i> Methods</a></li> 
+            <li><a href="documentation.html" class="nav-item"><i>📚</i> Documentation</a></li>
+        </ul>
+        
+        <div class="navbar-right">
+            <a href="about.html" class="about-link">About</a>
+        </div>
+    </nav>
+    <div class="examples-layout">
+        <div class="examples-container" id="content">
+            <h1>展示部分</h1>
+            
+            <!-- 输入和输出区域 -->
+            <div class="input-output-wrapper">
+                <!-- 输入区域 -->
+                <div class="input-section">
+                    <form id="smilesForm" onsubmit="return false;">
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                id="smilesInput" 
+                                placeholder="请输入SMILES字符串（例如：CCO）"
+                                autocomplete="off"
+                                autocapitalize="off"
+                                spellcheck="false"
+                            >
+                        </div>
+                        <button type="button" id="submitBtn" onclick="submitSmiles();">提交分析</button>
+                    </form>
+                </div>
+
+                <!-- 输出区域 -->
+                <div class="output-section" id="outputSection">
+                    <h2 class="output-title">分析结果</h2>
+                    <div class="result-container">
+                        <div class="properties-list">
+                            <div class="result-card">
+                                <div class="result-property">
+                                    <span class="property-name">分子量</span>
+                                    <span class="property-value" id="molecularWeight">-</span>
+                                </div>
+                                <div class="result-property">
+                                    <span class="property-name">LogP</span>
+                                    <span class="property-value" id="logP">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
