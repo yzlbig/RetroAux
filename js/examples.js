@@ -6,9 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     
     // 获取结果显示元素
-    const molecularWeightElement = document.getElementById('molecularWeight');
-    const logPElement = document.getElementById('logP');
-    
+    const outputSection = document.getElementById('outputSection');
+    const loadingMessage = document.getElementById('loadingMessage'); // 分析中提示
+    const resultsContainer = document.getElementById('resultsContainer'); // 结果容器
+
     // 为提交按钮添加点击事件监听器
     submitBtn.addEventListener('click', function() {
         // 获取输入值并去除空格
@@ -27,12 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // 显示加载中状态
-        molecularWeightElement.textContent = '加载中...';
-        logPElement.textContent = '加载中...';
+        // 显示“分析中”提示
+        loadingMessage.style.display = 'block';
+        resultsContainer.innerHTML = ''; // 清空之前的结果
         
         // 发送请求到后端
-        fetch('http://10.254.29.16:11357/upload', {
+        fetch('http://101.42.46.234:60687/upload', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,23 +47,38 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            // 更新结果显示
-            molecularWeightElement.textContent = data.molecularWeight || '-';
-            logPElement.textContent = data.logP || '-';
+            // 隐藏“分析中”提示
+            loadingMessage.style.display = 'none';
+
+            // 处理返回的 SMILES 字符串
+            if (data.result) {
+                const smilesArray = data.result.split('\n').filter(smiles => smiles.trim() !== '');
+                displaySmilesResults(smilesArray);
+            }
         })
         .catch(error => {
             console.error('请求失败:', error);
             alert('请求失败，请检查网络连接或联系管理员');
             
-            // 恢复默认值
-            molecularWeightElement.textContent = '-';
-            logPElement.textContent = '-';
+            // 隐藏“分析中”提示
+            loadingMessage.style.display = 'none';
         });
     });
-    
+
     // 可选：为表单添加提交事件处理（防止有人直接提交表单）
     smilesForm.addEventListener('submit', function(event) {
         // 阻止表单默认提交行为
         event.preventDefault();
     });
+
+    // 显示 SMILES 结果的函数
+    function displaySmilesResults(smilesArray) {
+        // 遍历 SMILES 数组并显示
+        smilesArray.forEach(smiles => {
+            const smilesElement = document.createElement('div');
+            smilesElement.className = 'smiles-item';
+            smilesElement.textContent = smiles;
+            resultsContainer.appendChild(smilesElement);
+        });
+    }
 });
