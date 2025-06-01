@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsContainer.innerHTML = ''; // 清空之前的结果
         
         // 发送请求到后端
-        fetch('http://101.42.46.234:60687/upload', {
+        fetch('https://101.42.46.234:60687/upload', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
