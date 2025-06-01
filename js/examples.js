@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsContainer.innerHTML = ''; // 清空之前的结果
         
         // 发送请求到后端
-        fetch('https://101.42.46.234:60687/upload', {
+        fetch('http://101.42.46.234:60687/upload', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,10 +50,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // 隐藏“分析中”提示
             loadingMessage.style.display = 'none';
 
-            // 处理返回的 SMILES 字符串
-            if (data.result) {
-                const smilesArray = data.result.split('\n').filter(smiles => smiles.trim() !== '');
-                displaySmilesResults(smilesArray);
+            // 处理返回的结果集合
+            if (data.results && Array.isArray(data.results)) {
+                displaySmilesResults(data.results);
+            } else {
+                alert('返回数据格式不正确');
             }
         })
         .catch(error => {
@@ -72,13 +73,36 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 显示 SMILES 结果的函数
-    function displaySmilesResults(smilesArray) {
-        // 遍历 SMILES 数组并显示
-        smilesArray.forEach(smiles => {
+    function displaySmilesResults(results) {
+        // 遍历结果数组并显示
+        results.forEach(item => {
+            const { formula, smiles, png_base64 } = item;
+
+            // 创建结果容器
+            const resultElement = document.createElement('div');
+            resultElement.className = 'result-item';
+
+            // 创建并添加分子式元素
+            const formulaElement = document.createElement('div');
+            formulaElement.className = 'formula';
+            formulaElement.textContent = `分子式: ${formula}`;
+            resultElement.appendChild(formulaElement);
+
+            // 创建并添加 SMILES 元素
             const smilesElement = document.createElement('div');
-            smilesElement.className = 'smiles-item';
-            smilesElement.textContent = smiles;
-            resultsContainer.appendChild(smilesElement);
+            smilesElement.className = 'smiles';
+            smilesElement.textContent = `SMILES: ${smiles}`;
+            resultElement.appendChild(smilesElement);
+
+            // 创建并添加图片元素
+            const imageElement = document.createElement('img');
+            imageElement.className = 'molecule-image';
+            imageElement.src = png_base64;
+            imageElement.alt = `分子 ${formula}`;
+            resultElement.appendChild(imageElement);
+
+            // 将结果容器添加到结果显示区域
+            resultsContainer.appendChild(resultElement);
         });
     }
 });
